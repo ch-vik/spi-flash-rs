@@ -108,8 +108,8 @@ pub trait FlashAccess {
 /// SPI Flash.
 ///
 /// This struct provides methods for interacting with common SPI flashes.
-pub struct Flash<'a, A: FlashAccess> {
-    access: &'a mut A,
+pub struct Flash<A: FlashAccess> {
+    access: A,
 
     /// Once read, ID details are cached.
     id: Option<FlashID>,
@@ -136,7 +136,7 @@ pub struct Flash<'a, A: FlashAccess> {
     erase_opcode: u8,
 }
 
-impl<'a, A: FlashAccess> Flash<'a, A>
+impl<A: FlashAccess> Flash<A>
 where
     Error: From<<A as FlashAccess>::Error>,
 {
@@ -150,7 +150,7 @@ where
     const DATA_PROGRESS_CHARS: &'static str = "━╸━";
 
     /// Create a new Flash instance using the given FlashAccess provider.
-    pub fn new(access: &'a mut A) -> Self {
+    pub fn new(access: A) -> Self {
         Flash {
             access,
             id: None,

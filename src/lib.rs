@@ -30,7 +30,8 @@ pub use sreg::{StatusRegister1, StatusRegister2, StatusRegister3};
 use erase_plan::ErasePlan;
 use sfdp::SFDPHeader;
 
-#[cfg_attr(feature = "std", derive(thiserror::Error, Debug))]
+#[cfg_attr(feature = "std", derive(thiserror::Error))]
+#[derive(Debug)]
 pub enum Error {
     #[cfg_attr(feature = "std", error("Mismatch during flash readback verification."))]
     ReadbackError { address: u32, wrote: u8, read: u8 },
